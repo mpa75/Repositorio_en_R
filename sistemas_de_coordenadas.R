@@ -71,3 +71,9 @@ bar <- ggplot(data = diamonds) +
 
 bar + coord_flip()
 bar + coord_polar()
+
+ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) +
+  geom_point() + 
+  geom_abline() +
+  coord_fixed() +
+  geom_jitter()
