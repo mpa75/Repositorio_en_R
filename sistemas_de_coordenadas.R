@@ -15,9 +15,9 @@ ggplot(data = diamonds, mapping = aes(x = cut, colour = clarity)) +
 #----------------------------------------------------------------------------------------------------
 ggplot(data = diamonds, mapping = aes(x = cut, colour = clarity)) + 
   geom_bar(fill = NA, position = "identity") +
-#coord_polar() para convertir un gráfico de barras en un gráfico polar
+  #coord_polar() para convertir un gráfico de barras en un gráfico polar
   coord_polar()
-  #coord_flip()
+#coord_flip()
 
 #-----------------------------------------------------------------------------------
 
