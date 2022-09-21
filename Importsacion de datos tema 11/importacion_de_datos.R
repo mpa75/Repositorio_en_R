@@ -17,8 +17,9 @@ library(tidyverse)
 
 
 heights <- read_csv("data/heights.csv")
+nacimientos <- read.csv("nacimientos.csv", header=FALSE, stringsAsFactors=FALSE, fileEncoding="latin1")
 
-
+View(nacimientos)
 read_csv("a,b,c
 1,2,3
 4,5,6")
