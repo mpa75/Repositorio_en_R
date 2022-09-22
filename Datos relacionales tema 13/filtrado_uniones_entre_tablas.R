@@ -23,3 +23,5 @@ flights %>%
 flights %>%
   anti_join(planes, by = "tailnum") %>%
   count(tailnum, sort = TRUE)
+
+airports %>% count(alt, lon) %>% filter(n == 1)
