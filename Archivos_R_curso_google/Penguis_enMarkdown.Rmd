@@ -1,0 +1,21 @@
+---
+title: "archivos_ggplot"
+author: "Manuel"
+date: "2022-08-08"
+output: html_document
+---
+```{r leyendo las librerias}
+library(ggplot2)
+
+library(palmerpenguins)
+```
+
+
+```{r funcion que imprime penguis}
+ggplot(data=penguins, aes(x=flipper_length_mm, y=body_mass_g)) +
+  geom_point(aes(color=species)) +
+  labs(title ="Palmer Penguis: Body Mass vs. Fliper Length")+
+  annotate("text",x=220, y=3500, label = "Te Gentoos are the largest", color= "red", fontface="bold", size=4.5, angle=25)
+
+```
+

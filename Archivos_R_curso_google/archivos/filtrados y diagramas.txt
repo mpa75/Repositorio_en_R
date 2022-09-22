@@ -1,0 +1,123 @@
+---
+tÃ­tulo: "LecciÃ³n 3: Soluciones de filtros"
+archivo de salida: html_document
+---
+
+## Soluciones de filtros y facetas
+Este documento contiene las soluciones de la actividad de filtros y facetas. Puedes usar estas soluciones para controlar tu trabajo y asegurarte de que tu cÃ³digo sea correcto o resolver problemas en tu cÃ³digo si marca errores. Si aÃºn no completaste la actividad, te sugerimos que regreses y la termines antes de leer las soluciones.
+
+Si tienes errores, recuerda que puedes buscar ayuda en Internet y en la comunidad de RStudio:
+https://community.rstudio.com/#
+
+## Paso 1: Importar los datos
+
+Los datos de este ejemplo provienen originalmente del artÃ­culo Hotel Booking Demand Datasets (https://www.sciencedirect.com/science/article/pii/S2352340918315191), escrito por Nuno Antonio, Ana Almeida y Luis Nunes para Data in Brief, Volumen 22, febrero de 2019.
+
+Los datos fueron descargados y limpiados por Thomas Mock y Antoine Bichat para #TidyTuesday durante la semana del 11 de febrero de 2020 (https://github.com/rfordatascience/tidytuesday/blob/master/data/2020/2020-02-11/readme.md).
+
+Puedes aprender mÃ¡s sobre este conjunto de datos aquÃ­:
+https://www.kaggle.com/jessemostipak/hotel-booking-demand
+
+Ejecuta el cÃ³digo que aparece debajo para cargar el archivo 'hotel_bookings.csv' en un marco de datos: 
+
+```{r}
+hotel_bookings <- read.csv("hotel_bookings.csv")
+```
+
+## Paso 2: Refrescar la memoria
+
+A esta altura, ya estÃ¡s bastante familiarizado con este conjunto de datos. Pero puedes refrescar tu memoria con las funciones `head()` y `colnames()`. Ejecuta los dos bloques de cÃ³digo debajo para obtener una muestra de los datos y, ademÃ¡s, tener una vista previa los nombres de todas las columnas:
+
+```{r look at data}
+head(hotel_bookings)
+```
+
+```{r look at column names}
+colnames(hotel_bookings)
+```
+
+## Paso 3: Instalar y cargar el paquete 'ggplot2' (opcional)
+
+Si todavÃ­a no instalaste y cargaste el paquete `ggplot2`, deberÃ¡s hacerlo antes de poder usar la funciÃ³n `ggplot()`. Pero solo tienes que hacerlo una vez, no todas las veces que utilices `ggplot()`.
+
+TambiÃ©n puedes saltearte este paso si no cerraste tu cuenta de RStudio desde que hiciste la Ãºltima actividad. Si no estÃ¡s seguro, puedes ejecutar el bloque de cÃ³digo y presionar 'cancel' si aparece el mensaje de advertencia que te dice que ya descargaste el paquete `ggplot2`.
+
+Ejecuta el bloque de cÃ³digo que aparece a continuaciÃ³n para instalar y cargar `ggplot2`. Â¡Esto puede tardar unos minutos!
+
+```{r loading and installing ggplot2, echo=FALSE, message=FALSE}
+install.packages('ggplot2')
+library(ggplot2)
+```
+
+## Paso 4: Hacer muchos grÃ¡ficos diferentes
+
+A modo de repaso, este es el diagrama de dispersiÃ³n que creaste antes.
+
+```{r creating a plot}
+ggplot(data = hotel_bookings) +
+  geom_point(mapping = aes(x = lead_time, y = children))
+```
+
+Decides crear un grÃ¡fico de barras que muestre cada tipo de hotel y segmento del mercado. Usas diferentes colores para representar cada segmento del mercado:
+
+```{r bar chart}
+ggplot(data = hotel_bookings) +
+  geom_bar(mapping = aes(x = hotel, fill = market_segment))
+```
+
+Decides usar la funciÃ³n facet_wrap() para crear un grÃ¡fico diferente para cada segmento del mercado: 
+
+```{r faceting a plot}
+ggplot(data = hotel_bookings) +
+  geom_bar(mapping = aes(x = hotel)) +
+  facet_wrap(~market_segment)
+```
+
+## Paso 5: Filtrar
+
+Para el siguiente paso, necesitarÃ¡s tener cargado e instalado el paquete `tidyverse`. QuizÃ¡s veas una ventana emergente que te pregunta si quieres instalar; de ser asÃ­, haz clic en 'Install'. Â¡Esto puede tardar unos minutos!
+
+Si ya lo hiciste porque estÃ¡s usando el paquete `tidyverse` por tu cuenta, puedes saltearte este bloque de cÃ³digo.
+
+```{r install and download tidyverse}
+install.packages('tidyverse')
+library(tidyverse)
+```
+
+Usa la funciÃ³n `filter()` para crear un conjunto de datos que solo incluya los datos que quieres: 
+
+```{r filtering a dataset to just city hotels that are online TA}
+onlineta_city_hotels <- filter(hotel_bookings, 
+                           (hotel=="City Hotel" &
+                             hotel_bookings$market_segment=="Online TA"))
+```
+
+Puedes usar la funciÃ³n `View`() para ver tu nuevo marco de datos:
+
+```{r View}
+View(onlineta_city_hotels)
+```
+
+Â¡Puedes usar el operador de canalizaciÃ³n (%>%) para hacerlo en pasos! 
+
+Nombras a este marco de datos como `onlineta_city_hotels_v2`:
+
+```{r filtering a dataset with the pipe}
+onlineta_city_hotels_v2 <- hotel_bookings %>%
+  filter(hotel=="City Hotel") %>%
+  filter(market_segment=="Online TA")
+```
+
+Este bloque de cÃ³digo genera el mismo marco de datos usando la funciÃ³n `View()`:
+
+```{r view second dataframe}
+View(onlineta_city_hotels_v2)
+```
+
+## Paso 6: Usar tu nuevo marco de datos
+
+Usando el cÃ³digo de tu diagrama de dispersiÃ³n anterior, reemplaza `variable_name` en el bloque de cÃ³digo por `onlineta_city_hotels` o `onlineta_city_hotels_v2` para graficar los datos que tu interesada solicitÃ³:
+
+```{r creating a plot part two}
+ggplot(data = onlineta_city_hotels) +
+  geom_point(mapping = aes(x = lead_time, y = children))

@@ -1,0 +1,200 @@
+tÃ­tulo: "LecciÃ³n 3: Soluciones de modificaciÃ³n"
+archivo de salida: html_document
+---
+
+## Soluciones de modificaciÃ³n de datos
+Este documento contiene las soluciones de la actividad de modificaciÃ³n. Puedes usar estas soluciones para controlar tu trabajo y asegurarte de que tu cÃ³digo sea correcto o resolver problemas en tu cÃ³digo si marca errores. Si aÃºn no completaste la actividad, te sugerimos que regreses y la termines antes de leer las soluciones.
+
+Si tienes errores, recuerda que puedes buscar ayuda en Internet y en la comunidad de RStudio:
+https://community.rstudio.com/#
+
+## Paso 1: Cargar paquetes
+
+Comienza instalando los paquetes requeridos. Si ya instalaste y cargaste `tidyverse`, skimr` y `janitor` en esta sesiÃ³n, puedes saltearte los bloques de cÃ³digo en este paso.
+
+```{r install packages}
+install.packages("tidyverse")
+install.packages("skimr")
+install.packages("janitor")
+```
+
+Una vez que un paquete estÃ¡ instalado, puedes cargarlo ejecutando la funciÃ³n `library()` con el nombre del paquete dentro de los parÃ©ntesis:
+
+```{r load packages}
+library(tidyverse)
+library(skimr)
+library(janitor)
+```
+
+## Paso 2: Importar datos
+
+Los datos de este ejemplo provienen originalmente del artÃ­culo Hotel Booking Demand Datasets (https://www.sciencedirect.com/science/article/pii/S2352340918315191), escrito por Nuno Antonio, Ana Almeida y Luis Nunes para Data in Brief, Volumen 22, febrero de 2019.
+
+Los datos fueron descargados y limpiados por Thomas Mock y Antoine Bichat para #TidyTuesday durante la semana del 11 de febrero de 2020 (https://github.com/rfordatascience/tidytuesday/blob/master/data/2020/2020-02-11/readme.md).
+
+Puedes aprender mÃ¡s sobre este conjunto de datos aquÃ­:
+https://www.kaggle.com/jessemostipak/hotel-booking-demand
+
+En el bloque que aparece a continuaciÃ³n, usarÃ¡s la funciÃ³n `read_csv()` para importar datos de un archivo .csv llamado "hotel_bookings.csv" en la carpeta del proyecto y guardarlo como un marco de datos llamado `hotel_bookings`:
+
+```{r load dataset}
+hotel_bookings <- read_csv("hotel_bookings.csv")
+```
+
+## Paso 3: Conocer tus datos
+
+Como has hecho en otros ejemplos, usa la funciÃ³n `head()` para tener una vista previa de las columnas y las primeras filas de datos ejecutando el bloque que aparece debajo:
+
+```{r head function}
+head(hotel_bookings)
+```
+## Respuestas del cuestionario de prÃ¡ctica 
+
+1. Â¿CuÃ¡ntas columnas hay en este conjunto de datos?
+A: 45
+B: 100
+C: 32
+D: 60
+Respuesta: C: Hay 32 columnas en este conjunto de datos. La funciÃ³n `head()` devuelve una vista previa del conjunto de datos, incluyendo las seis primeras filas de datos y todas las columnas que entren en la pantalla. En la esquina inferior izquierda de la tabla, indica que es la vista previa de 1-4 de 32 columnas. 
+
+2. La variable 'arrival_date_month' es un dato de tipo chr o cÃ³digo de carÃ¡cter.  
+A: Verdadero
+B: Falso
+Respuesta: A. La variable 'arrival_date_month' es un dato de tipo chr o cÃ³digo de carÃ¡cter. Debajo del nombre de la columna en la tabla de vista previa, hay una descripciÃ³n del tipo de dato para cada columna. 
+
+AdemÃ¡s de `head()`, tambiÃ©n puedes usar las funciones `str()` y `glimpse()` para obtener resÃºmenes de cada columna en tus datos organizados horizontalmente. Puedes probar estas dos funciones ejecutando los bloques de cÃ³digo que aparecen a continuaciÃ³n:
+
+```{r str function}
+str(hotel_bookings)
+```
+
+Puedes ver los diferentes nombres de columna y algunos valores de muestra a la derecha de los dos puntos. 
+
+```{r glimpse function}
+glimpse(hotel_bookings)
+```
+
+TambiÃ©n puedes usar `colnames()` para obtener los nombres de las columnas en tu conjunto de datos. Ejecuta el bloque de cÃ³digo que aparece debajo para obtener los nombres de las columnas:
+
+```{r colnames function}
+colnames(hotel_bookings)
+```
+
+## Manipular tus datos
+
+Digamos que quieres ordenar los datos de mayor tiempo de antelaciÃ³n a menor tiempo de antelaciÃ³n porque quieres enfocarte en reservas que se realizaron con mucha anticipaciÃ³n. Decides que quieres intentar usar la funciÃ³n `arrange()` y ejecutas el siguiente comando: 
+
+```{r arrange function}
+arrange(hotel_bookings, lead_time)
+```
+
+`arrange()` organiza automÃ¡ticamente en orden ascendente y debes indicarle especÃ­ficamente cuÃ¡ndo organizar en orden descendente, como el bloque de cÃ³digo que aparece a continuaciÃ³n:
+
+```{r arrange function descending} 
+arrange(hotel_bookings, desc(lead_time))
+```
+## Respuestas del cuestionario de prÃ¡ctica
+
+Â¿CuÃ¡l es el mayor tiempo de antelaciÃ³n para una reserva de hotel en este conjunto de datos?
+A: 737
+B: 709
+C: 629
+D: 0
+
+Respuesta: A. El mayor tiempo de antelaciÃ³n para una reserva de hotel en este conjunto de datos es 737 dÃ­as. DespuÃ©s de usar la funciÃ³n arrange() para ordenar las reservas de hotel (hotel_bookings) por tiempo de antelaciÃ³n en orden descendente, observarÃ¡s que 737 es la primera fila. Â¡Eso es mÃ¡s de dos aÃ±os de antelaciÃ³n!
+
+Observa que cuando solo ejecutas `arrange()` sin guardar tus datos en un nuevo marco de datos, no modifica el marco de datos existente. Comprueba ejecutando de nuevo `head()` para ver si los mayores tiempos de antelaciÃ³n estÃ¡n primero: 
+
+```{r head function part two}
+head(hotel_bookings)
+```
+
+Si quisieras crear un nuevo marco de datos que tuviera guardados estos cambios, usarÃ­as <- , tal como estÃ¡ escrito en el bloque de cÃ³digo debajo, para almacenar los datos ordenados en un marco de datos llamado 'hotel_bookings_v2'
+
+```{r new dataframe}
+hotel_bookings_v2 <-
+  arrange(hotel_bookings, desc(lead_time))
+```
+
+Observa el nuevo marco de datos: 
+
+```{r new dataframe part two}
+head(hotel_bookings_v2)
+```
+
+TambiÃ©n puedes averiguar los tiempos mÃ¡ximos y mÃ­nimos de antelaciÃ³n sin ordenar todo el conjunto de datos usando la funciÃ³n `arrange()`. Prueba usando las funciones max() y min() debajo:
+
+```{r}
+max(hotel_bookings$lead_time)
+```
+
+```{r}
+min(hotel_bookings$lead_time)
+```
+
+Recuerda que, en este caso, necesitas especificar quÃ© conjunto de datos y quÃ© columna usando el sÃ­mbolo $ entre los nombres. Prueba ejecutar lo siguiente para ver quÃ© pasa si te olvidas una de esas partes:
+
+```{r}
+min(lead_time)
+```
+
+Este es un error comÃºn que encuentran los usuarios de R. 
+
+Ahora, digamos que solo quieres saber el tiempo de antelaciÃ³n promedio de las reservas porque tu jefe te pregunta con cuÃ¡nta anticipaciÃ³n deberÃ­as realizar las promociones de habitaciones de hotel. Puedes usar la funciÃ³n `mean()`para responder esa pregunta:
+
+```{r mean}
+mean(hotel_bookings$lead_time)
+```
+
+DeberÃ­as obtener la misma respuesta aun si usas el conjunto de datos v2 que incluyÃ³ la funciÃ³n `arrange()`. 
+
+```{r mean part two}
+mean(hotel_bookings_v2$lead_time)
+```
+
+## Cuestionario de prÃ¡ctica 
+
+Â¿CuÃ¡l es el tiempo promedio de antelaciÃ³n?
+A: 100
+B: 45
+C: 14
+D: 104.0114
+
+Respuesta: D. El tiempo promedio de antelaciÃ³n es de 104.0114 dÃ­as. Pudiste calcularlo usando la funciÃ³n mean() en la columna lead_time de tu conjunto de datos. 
+
+Le pudiste informar a tu jefe cuÃ¡l es el tiempo promedio de antelaciÃ³n de las reservas, pero ahora quiere saber cuÃ¡l es el tiempo promedio de antelaciÃ³n de las reservas solamente de los hoteles urbanos. Quieren enfocar la promociÃ³n que estÃ¡n realizando, dirigiÃ©ndola a grandes ciudades.
+
+TÃº sabes que el primer paso serÃ¡ crear un nuevo conjunto de datos que solo contenga datos sobre hoteles urbanos. Puedes hacerlo usando la funciÃ³n `filter()` y nombrar a tu nuevo marco de datos 'hotel_bookings_city':
+
+```{r filter}
+hotel_bookings_city <- 
+  filter(hotel_bookings, hotel_bookings$hotel=="City Hotel")
+```
+
+Mira tu nuevo conjunto de datos:
+
+```{r new dataset}
+head(hotel_bookings_city)
+```
+
+Puedes consultar con rapidez cuÃ¡l es el tiempo de antelaciÃ³n promedio para este conjunto de hoteles, tal como lo hiciste con todos los hoteles antes:
+
+```{r average lead time city hotels}
+mean(hotel_bookings_city$lead_time)
+```
+
+Ahora, tu jefe quiere obtener mucha mÃ¡s informaciÃ³n sobre hoteles urbanos, incluyendo tiempo mÃ¡ximo y mÃ­nimo de antelaciÃ³n de las reservas. TambiÃ©n le interesa en quÃ© difieren a los hoteles tipo resort. No quieres ejecutar cada lÃ­nea de cÃ³digo una y otra vez, por lo que decides usar las funciones `group_by()`y `summarize()`. TambiÃ©n puedes usar el operador de canalizaciÃ³n para que tu cÃ³digo sea mÃ¡s fÃ¡cil de seguir. AlmacenarÃ¡s el nuevo conjunto de datos en un marco de datos llamado 'hotel_summary':
+
+```{r group and summarize}
+hotel_summary <- 
+  hotel_bookings %>%
+  group_by(hotel) %>%
+  summarise(average_lead_time=mean(lead_time),
+            min_lead_time=min(lead_time),
+            max_lead_time=max(lead_time))
+```
+
+Comprueba tu nuevo conjunto de datos usando head() nuevamente:
+
+```{r}
+head(hotel_summary)

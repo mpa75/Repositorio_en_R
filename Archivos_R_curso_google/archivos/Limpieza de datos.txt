@@ -1,0 +1,114 @@
+---
+tÃ­tulo: "LecciÃ³n 3: Soluciones de limpieza"
+archivo de salida: html_document
+---
+
+## Soluciones de limpieza de datos
+Este documento contiene las soluciones de la actividad de limpieza de datos. Puedes usar estas soluciones para controlar tu trabajo y asegurarte de que tu cÃ³digo sea correcto o resolver problemas en tu cÃ³digo si marca errores. Si aÃºn no completaste la actividad, te sugerimos que regreses y la termines antes de leer las soluciones.
+
+Si tienes errores, recuerda que puedes buscar ayuda en Internet y en la comunidad de RStudio:
+https://community.rstudio.com/#
+
+## Paso 1: Cargar paquetes
+
+Comienza instalando los paquetes requeridos. Si ya instalaste y cargaste `tidyverse`, skimr` y `janitor` en esta sesiÃ³n, puedes saltearte los bloques de cÃ³digo en este paso.
+
+```{r}
+install.packages("tidyverse")
+install.packages("skimr")
+install.packages("janitor")
+```
+
+Una vez que un paquete estÃ¡ instalado, puedes cargarlo ejecutando la funciÃ³n `library()` con el nombre del paquete dentro de los parÃ©ntesis:
+
+```{r}
+library(tidyverse)
+library(skimr)
+library(janitor)
+```
+## Paso 2: Importar datos
+Los datos de este ejemplo provienen originalmente del artÃ­culo Hotel Booking Demand Datasets (https://www.sciencedirect.com/science/article/pii/S2352340918315191), escrito por Nuno Antonio, Ana Almeida y Luis Nunes para Data in Brief, Volumen 22, febrero de 2019.
+
+Los datos fueron descargados y limpiados por Thomas Mock y Antoine Bichat para #TidyTuesday durante la semana del 11 de febrero de 2020 (https://github.com/rfordatascience/tidytuesday/blob/master/data/2020/2020-02-11/readme.md).
+
+Puedes aprender mÃ¡s sobre este conjunto de datos aquÃ­:
+https://www.kaggle.com/jessemostipak/hotel-booking-demand
+
+En el bloque que aparece a continuaciÃ³n, usarÃ¡s la funciÃ³n `read_csv()` para importar datos de un archivo .csv llamado "hotel_bookings.csv" en la carpeta del proyecto y guardarlo como un marco de datos llamado `bookings_df`:
+
+```{r}
+bookings_df <- read_csv("hotel_bookings.csv")
+```
+## Paso 3: Conocer tus datos
+
+Antes de comenzar a limpiar tus datos, tÃ³mate unos momentos para explorarlos. Puedes usar diversas funciones que ya conoces para tener una vista previa de tus datos, entre ellas, la funciÃ³n `head()` en el bloque de cÃ³digo que aparece a continuaciÃ³n:
+
+```{r}
+head(bookings_df)
+```
+
+Puedes resumir o hacer una vista previa de los datos con las funciones `str()` y `glimpse()` para lograr comprender mejor los datos ejecutando los bloques de cÃ³digo que aparecen a continuaciÃ³n:
+
+```{r}
+str(bookings_df)
+```
+
+```{r}
+glimpse(bookings_df)
+```
+
+TambiÃ©n puedes usar `colnames()` para comprobar los nombres de las columnas en tu conjunto de datos. Ejecuta el bloque de cÃ³digo que aparece a continuaciÃ³n para averiguar los nombres de las columnas en este conjunto de datos:
+
+```{r}
+colnames(bookings_df)
+```
+
+Usa la funciÃ³n `skim_without_charts()` del paquete `skimr` y ejecuta el cÃ³digo que aparece a continuaciÃ³n:
+
+```{r}
+skim_without_charts(bookings_df)
+```
+## Paso 4: Limpiar los datos
+
+SegÃºn tus notas, te interesan principalmente las siguientes variables: hotel, is_canceled, lead_time. Crea un nuevo marco de datos solo con esas columnas y llÃ¡malo `trimmed_df`.
+
+```{r}
+trimmed_df <- bookings_df %>% 
+  select(hotel, is_canceled, lead_time)
+```
+
+Renombra la variable 'hotel' como 'hotel_type' para dejar clarÃ­simo de quÃ© se tratan los datos:
+
+```{r}
+trimmed_df %>% 
+  select(hotel, is_canceled, lead_time) %>% 
+  rename(hotel_type = hotel)
+```
+
+En este ejemplo, puedes combinar el mes y el aÃ±o de llegada en una columna usando la funciÃ³n unite():
+
+```{r}
+example_df <- bookings_df %>%
+  select(arrival_date_year, arrival_date_month) %>% 
+  unite(arrival_month_year, c("arrival_date_month", "arrival_date_year"), sep = " ")
+```
+
+## Paso 5: Otra manera de hacer las cosas
+
+TambiÃ©n puedes usar la funciÃ³n `mutate()` para hacer cambios en tus columnas. Digamos que quieres crear una nueva columna que sume todos los adultos, niÃ±os y bebÃ©s en una reserva para averiguar la cantidad total de personas: Modifica el bloque de cÃ³digo debajo para crear esa nueva columna: 
+
+```{r}
+example_df <- bookings_df %>%
+  mutate(guests = adults + children + babies)
+
+head(example_df)
+```
+
+Excelente. Â¡Ahora es momento de calcular algunas estadÃ­sticas de resumen! Calcula el nÃºmero total de reservas canceladas y el tiempo promedio de antelaciÃ³n de las reservas. Te recomendamos que comiences tu cÃ³digo despuÃ©s del sÃ­mbolo %>%. Haz una columna llamada 'number_canceled' para representar el nÃºmero total de reservas canceladas. Luego, haz una columna llamada 'average_lead_time' para representar el tiempo promedio de antelaciÃ³n de las reservas. Usa la funciÃ³n `summarize()` para hacerlo en el bloque de cÃ³digo que aparece a continuaciÃ³n:
+
+```{r}
+example_df <- bookings_df %>%
+  summarize(number_canceled = sum(is_canceled),
+            average_lead_time = mean(lead_time))
+
+head(example_df)

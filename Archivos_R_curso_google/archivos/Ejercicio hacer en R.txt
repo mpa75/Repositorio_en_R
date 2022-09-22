@@ -1,0 +1,96 @@
+---
+tÃ­tulo: "LecciÃ³n 2: Soluciones de marcos de datos"
+archivo de salida: html_document
+---
+
+## Soluciones de Crear un marco de datos
+Este documento contiene las soluciones de la actividad de crear un marco de datos. Puedes usar estas soluciones para controlar tu trabajo y asegurarte de que tu cÃ³digo sea correcto o resolver problemas en tu cÃ³digo si marca errores. Si aÃºn no completaste la actividad, te sugerimos que regreses y la termines antes de leer las soluciones.
+
+Si tienes errores, recuerda que puedes buscar ayuda en Internet y en la comunidad de RStudio:
+https://community.rstudio.com/#
+
+## Paso 1: Cargar paquetes
+Comienza instalando el paquete requerido; en este caso, debes instalar `tidyverse`. Si ya instalaste y cargaste `tidyverse` en esta sesiÃ³n, puedes saltearte los bloques de cÃ³digo en este paso.
+
+```{r}
+install.packages("tidyverse")
+```
+```{r}
+library(tidyverse)
+```
+
+## Paso 2: Crear un marco de datos
+
+A veces, necesitarÃ¡s generar un marco de datos directamente en `R`. Existen diversas maneras de hacerlo; una de las mÃ¡s comunes es crear vectores de datos individuales y, luego, combinarlos en un marco de datos usando la funciÃ³n `data.frame()`.
+
+Esto funciona de la siguiente manera. Primero, crea un vector de nombres:
+```{r}
+names <- c("Peter", "Jennifer", "Julie", "Alex")
+```
+
+Luego, crea un vector de edades:
+
+```{r}
+age <- c(15, 19, 21, 25)
+```
+
+Con estos dos vectores, puedes crear un nuevo marco de datos llamado `people`:
+```{r}
+people <- data.frame(names, age)
+```
+
+## Paso 3: Inspeccionar el marco de datos
+
+Ahora que tienes este marco de datos, puedes usar algunas funciones diferentes para inspeccionarlo.
+
+Una funciÃ³n comÃºn que puedes usar para previsualizar los datos es la funciÃ³n `head()`, que muestra las columnas y las primeras filas de datos. Puedes ver cÃ³mo funciona la funciÃ³n `head()` ejecutando el bloque que aparece a continuaciÃ³n:
+
+```{r}
+head(people)
+```
+
+AdemÃ¡s de `head()`, existen otras funciones Ãºtiles para resumir o previsualizar tus datos. Por ejemplo, las funciones `str()` y `glimpse()` ofrecen resÃºmenes de cada columna en tus datos organizados horizontalmente. Puedes ver estas dos funciones en acciÃ³n ejecutando los bloques de cÃ³digo que aparecen a continuaciÃ³n:
+
+```{r}
+str(people)
+```
+
+```{r}
+glimpse(people)
+```
+
+TambiÃ©n puedes usar `colnames()` para obtener una lista de los nombres de las columnas en tu conjunto de datos. Ejecuta el bloque de cÃ³digo que aparece debajo para ver esta funciÃ³n:
+
+```{r}
+colnames(people)
+```
+
+Ahora que tienes un marco de datos, puedes trabajar con Ã©l usando todas las herramientas en `R`. Por ejemplo, podrÃ­as usar mutate()` si quisieras crear una nueva variable que capte la edad de cada persona en 20 aÃ±os. El bloque de cÃ³digo que aparece a continuaciÃ³n crea esa nueva variable:
+
+```{r}
+mutate(people, age_in_20 = age + 20)
+```
+
+## Paso 4: IntÃ©ntalo
+
+Para familiarizarte mÃ¡s con la creaciÃ³n y el uso de marcos de datos, usa los bloques de cÃ³digo que aparecen debajo para crear tu propio marco de datos personalizado. 
+
+Primero, crea un vector de cinco frutas diferentes. Puedes escribir directamente en el bloque de cÃ³digo que aparece debajo; simplemente coloca tu cursor en el cuadro y haz clic para escribir. Una vez que ingresaste las frutas que quieres en tu marco de datos, ejecuta el bloque de cÃ³digo.
+
+```{r}
+fruit <- c("Lemon", "Blueberry", "Grapefruit", "Mango", "Strawberry")
+```
+
+Ahora, crea un nuevo vector con un nÃºmero que represente tu propia clasificaciÃ³n personal de cada fruta. Dale un 1 a la fruta que mÃ¡s te gusta y un 5 a la fruta que menos te gusta. Recuerda, las calificaciones deben tener el mismo orden que las frutas que estÃ¡n arriba. Entonces, si tu fruta favorita es la Ãºltima en la lista de arriba, la calificaciÃ³n `1` debe estar en la Ãºltima posiciÃ³n en la lista que aparece debajo. Una vez que ingreses tus clasificaciones, ejecuta el bloque de cÃ³digo.
+
+```{r}
+rank <- c(4, 2, 5, 3, 1)
+```
+
+Por Ãºltimo, combina los dos vectores en un marco de datos. Puedes llamarlo `fruit_ranks`. Edita el bloque de cÃ³digo y ejecÃºtalo para crear tu marco de datos.
+
+```{r}
+fruit_ranks <- data.frame(fruit, rank)
+```
+
+DespuÃ©s de que ejecutes este bloque de cÃ³digo, crearÃ¡ un marco de datos con tus frutas y clasificaciones.

@@ -1,0 +1,75 @@
+---
+tÃ­tulo: "LecciÃ³n 2: Soluciones de importaciÃ³n"
+archivo de salida: html_document
+---
+
+## Soluciones de la actividad de importaciÃ³n y trabajo con datos
+Este documento contiene las soluciones para la actividad de importaciÃ³n y trabajo con datos. Puedes usar estas soluciones para controlar tu trabajo y asegurarte de que tu cÃ³digo sea correcto o resolver problemas en tu cÃ³digo si marca errores. Si aÃºn no completaste la actividad, te sugerimos que regreses y la termines antes de leer las soluciones. 
+
+Si tienes errores, recuerda que puedes buscar ayuda en Internet y en la comunidad de RStudio:
+https://community.rstudio.com/#
+
+## Paso 1: Cargar paquetes
+
+Comienza instalando el paquete requerido. Si ya instalaste y cargaste `tidyverse` en esta sesiÃ³n, puedes saltearte los bloques de cÃ³digo en este paso.
+
+```{r}
+install.packages("tidyverse")
+```
+```{r}
+library(tidyverse)
+```
+## Paso 2: Importar datos
+
+Los datos de este ejemplo provienen originalmente del artÃ­culo Hotel Booking Demand Datasets (https://www.sciencedirect.com/science/article/pii/S2352340918315191), escrito por Nuno Antonio, Ana Almeida y Luis Nunes para Data in Brief, Volumen 22, febrero de 2019.
+
+Los datos fueron descargados y limpiados por Thomas Mock y Antoine Bichat para #TidyTuesday durante la semana del 11 de febrero de 2020 (https://github.com/rfordatascience/tidytuesday/blob/master/data/2020/2020-02-11/readme.md).
+
+Puedes aprender mÃ¡s sobre este conjunto de datos aquÃ­:
+https://www.kaggle.com/jessemostipak/hotel-booking-demand
+
+En el bloque que aparece a continuaciÃ³n, usarÃ¡s la funciÃ³n `read_csv()` para importar datos de un archivo .csv llamado "hotel_bookings.csv" en la carpeta del proyecto y guardarlo como un marco de datos llamado `bookings_df`:
+
+```{r}
+bookings_df <- read_csv("hotel_bookings.csv")
+```
+
+Ahora que tienes el `bookings_df`, puedes trabajar con Ã©l usando todas las funciones `R` que aprendiste hasta ahora. 
+
+## Paso 3: Inspeccionar y limpiar datos
+
+Una funciÃ³n comÃºn que puedes usar para previsualizar los datos es la funciÃ³n `head()`, que muestra las columnas y las primeras filas de datos. Verifica la funciÃ³n `head()` ejecutando el bloque que aparece a continuaciÃ³n:
+
+```{r}
+head(bookings_df)
+```
+
+Verifica la funciÃ³n `srt()` ejecutando el bloque de cÃ³digo que aparece a continuaciÃ³n:
+
+```{r}
+str(bookings_df)
+```
+
+Para averiguar quÃ© columnas tienes en tu marco de datos, prueba ejecutar la funciÃ³n `colnames()` en el bloque de cÃ³digo que aparece a continuaciÃ³n:
+
+```{r}
+colnames(bookings_df)
+```
+
+Si quieres crear otro marco de datos usando `bookings_df` que se enfoca en la tarifa diaria promedio, que se indica como `adr` en el marco de datos y `adults`, puedes usar el siguiente bloque de cÃ³digo para hacerlo:
+
+```{r}
+new_df <- select(bookings_df, `adr`, adults)
+```
+
+Para crear nuevas variables en tu marco de datos, puedes usar la funciÃ³n `mutate()`. Esto realizarÃ¡ cambios en el marco de datos, pero no en el conjunto de datos original que importaste. Los datos fuente no se modificarÃ¡n. 
+
+```{r}
+mutate(new_df, total = `adr` / adults)
+```
+
+## Paso 4: Importar tus propios datos
+
+Â¡Ahora puedes encontrar tu propio .csv para importar! Usando la interfaz de RStudio Cloud, importa y guarda el archivo en la misma carpeta que este documento de R Markdown. Luego, escribe el cÃ³digo en el bloque que aparece debajo para leer esos datos en `R`:
+```{r}
+own_df <- read_csv("<filename.csv>")
