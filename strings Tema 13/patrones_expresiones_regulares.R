@@ -110,6 +110,75 @@ str_view_all(more, colour_match)
 #Devuelve listas con los colores de cada oración
 str_extract_all(more, colour_match)
 
+#Para crear expresiones regulares
+
+dot <- "\\."
+
+writeLines(dot)
+
+str_view(c("abc", "a.c", "bef"), "a\\.c")
+
+
+#BUSCAMOS SUSTANTIVOS
+#>cualquier palabra que venga después de “a” o “the”.
+#>Definir una "palabra" en una expresión regular es un
+#>poco complicado, así que aquí uso una aproximación simple:
+#>una secuencia de al menos un carácter que no es un espacio.
+
+#Creamos la expresión regular
+noun <- "(a|the) ([^ ]+)"
+
+#Cojemos las frases que cumplen la expresión regular
+has_noun <- sentences %>%
+  str_subset(noun) %>%
+  head(10)
+has_noun
+
+#Estraemos los sustantivos con su artículo "the" o con "a"
+has_noun %>% 
+  str_extract(noun)
+
+#Con str_match("") nos lo detalla y por frases
+has_noun %>% 
+  str_match(noun)
+
+#Podemos remplazar coincidencias con nuevos carateres o cadenas
+x <- c("apple", "pear", "banana")
+str_replace(x, "[aeiou]", "-")
+
+str_replace_all(x, "[aeiou]", "sustitucion")
+
+#Sustituimos numerales por cadenas 
+x <- c("1 house", "2 cars", "3 people")
+str_replace_all(x, c("1" = "one", "2" = "two", "3" = "three"))
+
+#Dividimos oraciones en palabras sueltas
+sentences %>%
+  head(5) %>% 
+  str_split(" ")
+
+
+#Identificamos palabras coincidentes
+
+bananas <- c("banana", "Banana", "BANANA")
+str_view(bananas, "banana")
+#ignoramos mayúsculas y minúsculas
+str_view(bananas, regex("baNAna", ignore_case = TRUE))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
