@@ -95,6 +95,8 @@ p <- c("Estas", "son", "mis", "palabras")
 rev(x) #Crea un vector reverso del original
 rev(p) #Puede ser útil para el calculo de valores en vectores
 
+#------------------------------------------------------------
+
 
 
 
