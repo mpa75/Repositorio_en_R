@@ -20,6 +20,7 @@ A <- A[(A[1,1] <- 10), (A[1,4] <- 10), (A[3,1] <- 10), (A[3,4] <- 10)]
 D <- -A[,-2]
 diag(D) <- 3
 
+
 #Esta sentencia la he encontrado en internet y he cambiado algunos términos
 #Verdaderamente funciona, pero me cuesta entenderla.
 D <- sapply(1:nrow(matrix(3,ncol=3,nrow=3)), FUN=function(x) {v<-rep(0,nrow(matrix(3,ncol=3,nrow=3)));v[x]<-(matrix(3,ncol=3,nrow=3))[x];v})
