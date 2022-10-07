@@ -32,12 +32,12 @@ C[3,2,3] <- -1
 C[1,2,5] <- -1
 C[3,2,5] <- -1
 
-datos2 <- c(diag(C[,,1]) <- 1, diag(C[,,2]) <- 1, diag(C[,,3]) <- 1, diag(C[,,4]) <- 1, diag(C[,,5]) <- 1, dim = c(3,4,5))
+#los hace todos 1??
+C <- array((c(diag(C[,,1]) <- 1, diag(C[,,2]) <- 1, diag(C[,,3]) <- 1, diag(C[,,4]) <- 1, diag(C[,,5]) <- 1)), dim = c(3,4,5))
 
-diag(C[,,1]) <- 1
+#d)
 
-
-
+A <- array(data = C, dim = c(3, 4, 5), dimnames = list(c("Fila 1", "Fila 2", "Fila 3"), c("Columna 1", "Columna 2", "Columna 3", "Columna 4")))
 
 
 
