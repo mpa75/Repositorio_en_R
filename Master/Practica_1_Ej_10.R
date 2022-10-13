@@ -43,14 +43,13 @@ datos[["cadenaChar"]] <- NULL
 #2)
 
 for (i in 3) {
-  
   datos[["factorEstado"]] <- datos[["factorEstado"]][-i]
-  
 }
 
 #e)
 
+datos[["parametros"]] <- c(mean(datos[["datosPaciente"]]$Altura_cm[datos[["datosPaciente"]]$Altura_cm > 170]), sd(datos[["datosPaciente"]]$Altura_cm[datos[["datosPaciente"]]$Altura_cm > 170]), var(datos[["datosPaciente"]]$Altura_cm[datos[["datosPaciente"]]$Altura_cm > 170])) 
 
-
-
-
+datos[["parametros"]] <- NULL
+datos[["parametros"]] <- matrix(c(mean(datos[["datosPaciente"]]$Altura_cm[datos[["datosPaciente"]]$Altura_cm > 170]), sd(datos[["datosPaciente"]]$Altura_cm[datos[["datosPaciente"]]$Altura_cm > 170]), var(datos[["datosPaciente"]]$Altura_cm[datos[["datosPaciente"]]$Altura_cm > 170])), nrow = 1,ncol =  3, byrow = T) 
+colnames(datos[["parametros"]]) <- c("Media Poblacional", "Desviación Típica", "Varianza")
